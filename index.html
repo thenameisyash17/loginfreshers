@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freshers Party Dare Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(255, 20, 147, 0.5);
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: containerGlow 3s infinite alternate;
+        }
+        
+        @keyframes containerGlow {
+            0% {
+                box-shadow: 0 0 25px rgba(255, 20, 147, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 35px rgba(0, 255, 255, 0.7);
+            }
+        }
+        
+        .header {
+            background: linear-gradient(to right, #ff0080, #8000ff);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: shine 5s infinite linear;
+        }
+        
+        @keyframes shine {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+            animation: textGlow 2s infinite alternate;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes textGlow {
+            0% {
+                text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+            }
+            100% {
+                text-shadow: 0 0 15px #00ffff, 0 0 25px #00ffff, 0 0 35px #00ffff;
+            }
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .credentials {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .party-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+            animation: bounce 2s infinite;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #ffeb3b;
+            border-radius: 50%;
+            animation: confetti-fall 5s linear infinite;
+            z-index: 0;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .login-form {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            font-size: 16px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+        
+        .form-group input:focus {
+            border-color: #ff00ff;
+            outline: none;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .form-group i {
+            position: absolute;
+            right: 20px;
+            top: 45px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to right, #ff0080, #8000ff);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 5px 15px rgba(128, 0, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(128, 0, 255, 0.6);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .options a {
+            color: #ff00ff;
+            text-decoration: none;
+            transition: color 0.3s;
+            text-shadow: 0 0 5px rgba(255, 0, 255, 0.5);
+        }
+        
+        .options a:hover {
+            color: #00ffff;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 0, 128, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 0, 128, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 0, 128, 0);
+            }
+        }
+        
+        .error-message {
+            color: #ff416c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+            text-shadow: 0 0 5px rgba(255, 65, 108, 0.7);
+        }
+        
+        .success-message {
+            color: #4caf50;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+            text-shadow: 0 0 5px rgba(76, 175, 80, 0.7);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        
+        .neon-text {
+            color: #fff;
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 15px #ff00ff,
+                0 0 20px #ff00ff,
+                0 0 25px #ff00ff;
+            animation: neon-flicker 2s infinite alternate;
+        }
+        
+        @keyframes neon-flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow: 
+                    0 0 5px #fff,
+                    0 0 10px #fff,
+                    0 0 15px #ff00ff,
+                    0 0 20px #ff00ff,
+                    0 0 25px #ff00ff;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 26px;
+            }
+            
+            .login-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="party-icon">🎉</div>
+            <h1 class="neon-text">Freshers Party Dare Game</h1>
+            <p>Enter your details to join the fun!</p>
+            <div class="credentials">
+                <p>Username: <strong>freshersparty</strong> | Password: <strong>yash123</strong></p>
+            </div>
+            <!-- Confetti elements -->
+            <div class="confetti" style="left: 10%; animation-delay: 0s;"></div>
+            <div class="confetti" style="left: 20%; animation-delay: 1s;"></div>
+            <div class="confetti" style="left: 30%; animation-delay: 0.5s;"></div>
+            <div class="confetti" style="left: 40%; animation-delay: 2s;"></div>
+            <div class="confetti" style="left: 50%; animation-delay: 1.5s;"></div>
+            <div class="confetti" style="left: 60%; animation-delay: 0.8s;"></div>
+            <div class="confetti" style="left: 70%; animation-delay: 2.5s;"></div>
+            <div class="confetti" style="left: 80%; animation-delay: 1.2s;"></div>
+            <div class="confetti" style="left: 90%; animation-delay: 0.3s;"></div>
+        </div>
+        
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username" required>
+                <i class="fas fa-user"></i>
+                <div class="error-message" id="usernameError">Please enter a valid username</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+                <i class="fas fa-lock"></i>
+                <div class="error-message" id="passwordError">Password must be at least 6 characters</div>
+                <div class="success-message" id="loginSuccess">Login successful! Redirecting...</div>
+            </div>
+            
+            <button type="submit" class="btn pulse">Join the Party! 🎊</button>
+            
+            <div class="options">
+                <a href="#">Forgot Password?</a>
+                <a href="#">New User? Sign Up</a>
+            </div>
+        </form>
+        
+        <div class="footer">
+            <p>Freshers Party 2023 | Dare at your own risk! 😜</p>
+        </div>
+    </div>
+
+    <script>
+        // Set credentials
+        const CORRECT_USERNAME = "freshersparty";
+        const CORRECT_PASSWORD = "yash123";
+        
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            let isValid = true;
+            
+            // Clear previous messages
+            document.getElementById('usernameError').style.display = 'none';
+            document.getElementById('passwordError').style.display = 'none';
+            document.getElementById('loginSuccess').style.display = 'none';
+            
+            // Validate username
+            if (username.length < 3) {
+                document.getElementById('usernameError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validate password
+            if (password.length < 6) {
+                document.getElementById('passwordError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Check if credentials are correct
+                if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
+                    // Add loading effect
+                    const btn = document.querySelector('.btn');
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+                    btn.disabled = true;
+                    
+                    // Show success message
+                    document.getElementById('loginSuccess').style.display = 'block';
+                    
+                    // Simulate login process and redirect to modify.html
+                    setTimeout(() => {
+                        // Redirect to modify.html
+                        window.location.href = "modify.html";
+                    }, 2000);
+                } else {
+                    // Show error for incorrect credentials
+                    if (username !== CORRECT_USERNAME) {
+                        document.getElementById('usernameError').textContent = "Username is incorrect";
+                        document.getElementById('usernameError').style.display = 'block';
+                    } else {
+                        document.getElementById('passwordError').textContent = "Password is incorrect";
+                        document.getElementById('passwordError').style.display = 'block';
+                    }
+                }
+            }
+        });
+        
+        // Add some interactive effects
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+                this.parentElement.style.transition = 'transform 0.3s';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+        
+        // Create more confetti on click
+        document.querySelector('.btn').addEventListener('click', function() {
+            for (let i = 0; i < 5; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.backgroundColor = getRandomColor();
+                document.querySelector('.header').appendChild(confetti);
+                
+                // Remove confetti after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        });
+        
+        function getRandomColor() {
+            const colors = ['#ffeb3b', '#ff4081', '#3f51b5', '#4caf50', '#ff9800', '#00ffff', '#ff00ff'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        // Add floating effect to container
+        const container = document.querySelector('.container');
+        container.classList.add('floating');
+    </script>
+</body>
+</html>
